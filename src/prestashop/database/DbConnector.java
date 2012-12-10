@@ -16,6 +16,7 @@ public class DbConnector {
 		String password = pass;
 		if (pass == null) {
 			Scanner in = new Scanner(System.in);
+			System.out.println("Podaj haslo: ");
 			password = in.nextLine();
 			in.close();
 		}
@@ -86,7 +87,7 @@ public class DbConnector {
 	{
 		System.out.println("Test db connector");
 		DbConnector db = new DbConnector();
-		db.open();
+		//db.open();
 		
 		int value = db.execute("UPDATE ps_category_dup SET id_shop_default=1");
 		System.out.println("Result of command: "+value);

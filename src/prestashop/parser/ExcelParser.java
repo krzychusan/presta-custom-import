@@ -19,9 +19,8 @@ public class ExcelParser implements InputParser {
 	private Workbook wb;
 	private Sheet sheet;
 	private final int sheetNumber = 2;
-	private final static String file = "D:\\breakparts\\brakeparts.pl\\Katalogi\\klocki ty�.xls";
     private ArrayList<Record> records = new ArrayList<Record>();
-    private RecordCreator rc;
+    private RecordCreator rc = new BrakePadRecordCreator();
     
        	
 	@Override
