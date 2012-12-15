@@ -13,7 +13,6 @@ public class BrakePadRecordCreator implements RecordCreator {
     private final static int COMMENT_COLUMN_INDEX = 3;
     private final static String SPLITTING_STRING = ";";
 
-	@Override
 	public Record createRecord(Row row) {
 		Record record = new Record();
 		int howmany = row.getPhysicalNumberOfCells();

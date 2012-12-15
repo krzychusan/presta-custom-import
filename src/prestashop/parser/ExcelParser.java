@@ -18,17 +18,17 @@ public class ExcelParser implements InputParser {
 	private InputStream inp;
 	private Workbook wb;
 	private Sheet sheet;
-	private final int sheetNumber = 2;
+	private final int sheetNumber = 0;
     private ArrayList<Record> records = new ArrayList<Record>();
-    private RecordCreator rc = new BrakePadRecordCreator();
+    private ArrayList<PriceListRecord> priceListRecords = new ArrayList<PriceListRecord>();
+    private BrakePadRecordCreator rc = new BrakePadRecordCreator();
+    private PriceListRecordCreator prc = new PriceListRecordCreator();
+    private DATA_TYPE type;
     
        	
 	@Override
 	public boolean open(String filename, DATA_TYPE type) {
-		switch (type) {
-			case BRAKEPADS_FRONT: rc = new BrakePadRecordCreator();
-			default: break;
-		}
+		this.type = type;
 		try {		
 			inp = new FileInputStream(filename);
 			wb = new HSSFWorkbook(inp);
@@ -51,18 +51,31 @@ public class ExcelParser implements InputParser {
 		System.out.println("Numer of rows is " + numOfRows);
 		for (int i = 1; i < numOfRows; ++i) {
 			  Row row = sheet.getRow(i);
-			  records.add(rc.createRecord(row));
+			  switch(this.type) {
+			  case BRAKEPADS_BACK:
+			  case BRAKEPADS_FRONT:
+				  records.add(rc.createRecord(row));
+				  break;
+			  case PRICELIST:
+			      priceListRecords.add(prc.createRecord(row));
+			  }
+			  
 		}
 		System.out.println("Finished");
 		printRecords();
 		return true;
 	}
 
-	@Override
-	public Iterator<Record> getIterator() {
+	public Iterator<Record> getRecordIterator() {
 		if (records == null)
 			return null;
 		return records.iterator();
+	}
+	
+	public Iterator<PriceListRecord> getPriceListRecordIterator() {
+		if (priceListRecords == null)
+			return null;
+		return priceListRecords.iterator();
 	}
 
 	@Override
@@ -95,10 +108,11 @@ public class ExcelParser implements InputParser {
 	
 	
 	private void printRecords(){
-		for (Iterator<Record> it = this.getIterator(); it.hasNext();){
+		for (Iterator<Record> it = this.getRecordIterator(); it.hasNext();){
 			Record r = it.next();
 			r.print();
 		}			
 	}
+	
 
 }

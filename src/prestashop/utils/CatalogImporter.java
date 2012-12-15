@@ -12,12 +12,11 @@ import prestashop.database.DbConnector;
 import prestashop.database.RecordHandler;
 import prestashop.parser.DATA_TYPE;
 import prestashop.parser.ExcelParser;
-import prestashop.parser.InputParser;
 import prestashop.parser.Record;
 
 public class CatalogImporter {
 	// protected Connector connector = null;
-	protected InputParser input = null;
+	protected ExcelParser input = null;
 	protected RecordHandler handler = null;
 	protected DbConnector connector = null;
 
@@ -103,7 +102,7 @@ public class CatalogImporter {
 	}
 
 	public void handleData() {
-		Iterator<Record> it = input.getIterator();
+		Iterator<Record> it = input.getRecordIterator();
 		while (it.hasNext()) {
 			handler.handleRecord(it.next());
 		}
