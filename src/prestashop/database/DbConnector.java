@@ -34,8 +34,9 @@ public class DbConnector {
 			conn = DriverManager.getConnection("jdbc:mysql://" + db,
 					login, password);
 
-		} catch (InstantiationException | IllegalAccessException
-				| ClassNotFoundException | SQLException e) {
+		} catch (Exception e)//| IllegalAccessException
+				//| ClassNotFoundException | SQLException e) 
+		{
 			e.printStackTrace();
 			System.out.println("Nie udalo sie nawiazac polaczenia z baza");
 			return false;
