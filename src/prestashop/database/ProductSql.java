@@ -14,7 +14,26 @@ public class ProductSql extends BaseSql {
 	private final static String sqlInsertProductShop = createInsertProductShopSql();
 	private final static String sqlInsertProductLang = createInsertProductLangSql();
 	private final static String sqlInsertProduct = createInsertProductSql();
+	
+	private final static String sqlUpdateProduct = "UPDATE ps_product SET price='"+TAG_PRICE+"', quantity='"+TAG_QUANTITY+"' WHERE id_product="+TAG_PRODUCT+";";
+	private final static String sqlUpdateProductShop = "UPDATE ps_product_shop SET price='"+TAG_PRICE+"' WHERE id_product="+TAG_PRODUCT+";";
+	
 
+	public static void update(DbConnector db, String idProduct, String price, String quantity)
+	{
+		int result = db.execute(
+				sqlUpdateProduct.replace(TAG_PRODUCT, idProduct).replace(TAG_PRICE, price).replace(TAG_QUANTITY, quantity)
+				);
+		if (result != 1) {
+			System.out.println("Blad podczas aktualizacji tabeli produktow " + idProduct);
+		}
+		db.execute(
+				sqlUpdateProductShop.replace(TAG_PRODUCT, idProduct).replace(TAG_PRICE, price)
+				);
+		if (result != 1) {
+			System.out.println("Blad podczas aktualizacji tabeli produktow/shop " + idProduct);
+		}
+	}
 	
 	public static String getProductId(DbConnector db, String name)
 	{
@@ -123,7 +142,7 @@ public class ProductSql extends BaseSql {
 		params.put("id_manufacturer", "0");
 		params.put("id_category_default", TAG_CATEGORY);
 		params.put("id_shop_default", TAG_SHOP);
-		params.put("id_tax_rules_group", "1");
+		params.put("id_tax_rules_group", "0");
 		params.put("on_sale", "0");
 		params.put("online_only", "0");
 		params.put("ean13", "''");
@@ -193,7 +212,7 @@ public class ProductSql extends BaseSql {
 		params.put("id_product", TAG_PRODUCT);
 		params.put("id_shop", TAG_SHOP);
 		params.put("id_category_default", TAG_CATEGORY);
-		params.put("id_tax_rules_group", "1");
+		params.put("id_tax_rules_group", "0");
 		params.put("on_sale", "0");
 		params.put("online_only", "0");
 		params.put("ecotax", "0");

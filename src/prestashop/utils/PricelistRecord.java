@@ -27,6 +27,11 @@ public class PricelistRecord implements Record {
 	}
 	@Override
 	public void print() {
-		// TODO Auto-generated method stub
+		System.out.println(this.toString());
+	}
+	
+	@Override
+	public String toString() {
+		return "PricelistRecord("+name+","+price+","+quantity+")";
 	}
 }

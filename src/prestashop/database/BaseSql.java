@@ -16,6 +16,8 @@ public class BaseSql {
 	protected final static String TAG_RIGHT = "<RIGHT>";
 	protected final static String TAG_DEC_RIGHT = "<DEC_RIGHT>";
 	protected final static String TAG_PRODUCT = "<PRODUCT>";
+	protected final static String TAG_PRICE = "<PRICE>";
+	protected final static String TAG_QUANTITY = "<QUANTITY>";
 	
 
 	public static String createInsertStatement(String table, HashMap<String,String> params)
@@ -36,6 +38,7 @@ public class BaseSql {
 	
 	public static String prepareLink(String name)
 	{
-		return name.replace(" ", "-").replace(".", "-");
+		return name.replace(" ", "-").replace(".", "-").replace("(", "-").replace(")", "-");
+		
 	}
 }
