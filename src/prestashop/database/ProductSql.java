@@ -14,7 +14,26 @@ public class ProductSql extends BaseSql {
 	private final static String sqlInsertProductShop = createInsertProductShopSql();
 	private final static String sqlInsertProductLang = createInsertProductLangSql();
 	private final static String sqlInsertProduct = createInsertProductSql();
+	
+	private final static String sqlUpdateProduct = "UPDATE ps_product SET wholesale_price='"+TAG_PRICE+"', quantity='"+TAG_QUANTITY+"' WHERE id_product="+TAG_PRODUCT+";";
+	private final static String sqlUpdateProductShop = "UPDATE ps_product_shop SET wholesale_price='"+TAG_PRICE+"' WHERE id_product="+TAG_PRODUCT+";";
+	
 
+	public static void update(DbConnector db, String idProduct, String price, String quantity)
+	{
+		int result = db.execute(
+				sqlUpdateProduct.replace(TAG_PRODUCT, idProduct).replace(TAG_PRICE, price).replace(TAG_QUANTITY, quantity)
+				);
+		if (result != 1) {
+			System.out.println("Blad podczas aktualizacji tabeli produktow " + idProduct);
+		}
+		db.execute(
+				sqlUpdateProductShop.replace(TAG_PRODUCT, idProduct).replace(TAG_PRICE, price)
+				);
+		if (result != 1) {
+			System.out.println("Blad podczas aktualizacji tabeli produktow/shop " + idProduct);
+		}
+	}
 	
 	public static String getProductId(DbConnector db, String name)
 	{
