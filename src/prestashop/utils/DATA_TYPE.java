@@ -1,4 +1,4 @@
-package prestashop.parser;
+package prestashop.utils;
 
 import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
 
@@ -28,7 +28,7 @@ public enum DATA_TYPE {
 			System.out.println("- "+type.id);
 		}
 			
-		throw new ParseException("Unknown type! "+value);
+		throw new ParseException("Nieznany typ arkusza: "+value);
 		
 	}
 	
@@ -37,6 +37,6 @@ public enum DATA_TYPE {
 		return this.title;
 	}
 	
-	String title;
-	String id;
+	private String title;
+	private String id;
 }

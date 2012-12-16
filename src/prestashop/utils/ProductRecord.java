@@ -1,15 +1,18 @@
-package prestashop.parser;
+package prestashop.utils;
 
 import java.util.HashMap;
 import java.util.Iterator;
 
-public class Record {
+import prestashop.interfaces.Record;
+
+public class ProductRecord implements Record {
 	private String brand;
 	private String model;
 	private String year;
 	private String comment;
 	private HashMap <String, String[]> products = new HashMap<String, String[]>();
-	
+
+	@Override
 	public void print(){
 		System.out.println("Rekord: " + brand + "," + model + "," + year + "," + comment);
 		Iterator<String> it = products.keySet().iterator();
@@ -50,12 +53,10 @@ public class Record {
 		return comment;
 	}
 
-	
 	public void setProducts(HashMap <String, String[]> products) {
 		this.products = products;
 	}
 	public HashMap <String, String[]> getProducts() {
 		return products;
 	}
-
 }
