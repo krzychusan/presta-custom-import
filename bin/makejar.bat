@@ -1,0 +1,1 @@
+jar -cvfm ImgImporter.jar manifest.txt prestashop/img prestashop/database
