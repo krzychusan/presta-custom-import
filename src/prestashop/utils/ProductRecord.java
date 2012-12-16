@@ -8,13 +8,13 @@ import prestashop.interfaces.Record;
 public class ProductRecord implements Record {
 	private String brand;
 	private String model;
-	private String year;
+	private String engine;
 	private String comment;
 	private HashMap <String, String[]> products = new HashMap<String, String[]>();
 
 	@Override
 	public void print(){
-		System.out.println("Rekord: " + brand + "," + model + "," + year + "," + comment);
+		System.out.println("Rekord: " + brand + "," + model + "," + engine + "," + comment);
 		Iterator<String> it = products.keySet().iterator();
 		while (it.hasNext())
 		{
@@ -40,11 +40,11 @@ public class ProductRecord implements Record {
 	public String getModel() {
 		return model;
 	}
-	public void setYear(String year) {
-		this.year = year;
+	public void setEngine(String engine) {
+		this.engine = engine;
 	}
-	public String getYear() {
-		return year;
+	public String getEngine() {
+		return engine;
 	}
 	public void setComment(String comment) {
 		this.comment = comment;

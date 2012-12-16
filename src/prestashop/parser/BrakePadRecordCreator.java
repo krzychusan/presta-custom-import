@@ -12,7 +12,7 @@ public class BrakePadRecordCreator extends RecordCreator {
     private final static int PRODUCTS_LIST_START_COLUMN_INDEX = 4;
     private final static int BRAND_COLUMN_INDEX = 0;
     private final static int MODEL_COLUMN_INDEX = 1;
-    private final static int YEAR_COLUMN_INDEX = 2;
+    private final static int ENGINE_COLUMN_INDEX = 2;
     private final static int COMMENT_COLUMN_INDEX = 3;
     private final static String SPLITTING_STRING = ";";
 
@@ -23,7 +23,7 @@ public class BrakePadRecordCreator extends RecordCreator {
 		if (howmany >= PRODUCTS_LIST_START_COLUMN_INDEX) {
 			record.setBrand(getStringValue(row.getCell(BRAND_COLUMN_INDEX)));
 			record.setModel(getStringValue(row.getCell(MODEL_COLUMN_INDEX)));
-			record.setYear(getStringValue(row.getCell(YEAR_COLUMN_INDEX)));
+			record.setEngine(getStringValue(row.getCell(ENGINE_COLUMN_INDEX)));
 			record.setComment(getStringValue(row.getCell(COMMENT_COLUMN_INDEX)));
 			record.setProducts(parseProductsList(row, PRODUCTS_LIST_START_COLUMN_INDEX, howmany));			
 		}

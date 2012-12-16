@@ -48,7 +48,7 @@ public class ProductHandler implements RecordHandler {
 			String idCategory = null;
 			idCategory = addCategoryIfNew(record.getBrand(), id_root);
 			idCategory = addCategoryIfNew(record.getModel(), idCategory);
-			idCategory = addCategoryIfNew(record.getYear(), idCategory);
+			idCategory = addCategoryIfNew(record.getEngine(), idCategory);
 			if (record.getComment() != null) {
 				idCategory = addCategoryIfNew(record.getComment(), idCategory);
 			}
