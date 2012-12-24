@@ -18,6 +18,12 @@ public class BaseSql {
 	protected final static String TAG_PRODUCT = "<PRODUCT>";
 	protected final static String TAG_PRICE = "<PRICE>";
 	protected final static String TAG_QUANTITY = "<QUANTITY>";
+	protected final static String TAG_DESCRIPTION = "<TAG_DESCRIPTION>";
+	protected final static String TAG_WIDTH = "<WIDTH>";
+	protected final static String TAG_HEIGHT = "<HEIGHT>";
+	protected final static String TAG_WEIGHT = "<WEIGHT>";
+	protected final static String TAG_SHORT_DESCRIPTION = "<TAG_SHORT_DESCRIPTION>";
+	protected final static String TAG_ISROOT = "<TAG_ISROOT>";
 	
 
 	public static String createInsertStatement(String table, HashMap<String,String> params)
@@ -38,7 +44,7 @@ public class BaseSql {
 	
 	public static String prepareLink(String name)
 	{
-		return name.replace(" ", "-").replace(".", "-").replace("(", "-").replace(")", "-");
+		return name.replace(" ", "-").replace(".", "-").replace("(", "").replace(")", "").replace("/", "-");
 		
 	}
 }

@@ -1,0 +1,48 @@
+<project default="jar" name="BrakeParts importer">
+    <property name="jardir" value="build/jar"/>
+    <property name="classdir" value="build/classes"/>
+    <path id="xclasspath">
+        <fileset dir="lib" includes="*.jar"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="${classdir}"/>
+        <javac srcdir="src" destdir="${classdir}" classpathref="xclasspath" includeantruntime="."/>
+    </target>
+
+    <target name="jar" depends="compile">
+        <mkdir dir="${jardir}"/>
+        <jar destfile="${jardir}/importer.jar" basedir="${classdir}">
+            <zipgroupfileset dir="lib"/>
+            <manifest>
+                <attribute name="Main-Class" value="prestashop.application.Importer"/>
+                <attribute name="Class-Path" value="lib"/>
+            </manifest>
+        </jar>
+        <jar destfile="${jardir}/reseter.jar" basedir="${classdir}">
+            <zipgroupfileset dir="lib"/>
+            <manifest>
+                <attribute name="Main-Class" value="prestashop.application.Reseter"/>
+                <attribute name="Class-Path" value="lib"/>
+            </manifest>
+        </jar>
+        <jar destfile="${jardir}/images.jar" basedir="${classdir}">
+            <zipgroupfileset dir="lib"/>
+            <manifest>
+                <attribute name="Main-Class" value="prestashop.img.ImgImporter"/>
+                <attribute name="Class-Path" value="lib"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="importer">
+        <java jar="${jardir}/importer.jar" fork="true"/>
+    </target>
+    <target name="images">
+        <java jar="${jardir}/images.jar" fork="true"/>
+    </target>
+</project>

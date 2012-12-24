@@ -3,6 +3,7 @@ package prestashop.handler;
 import prestashop.database.DbConnector;
 import prestashop.database.DbHelper;
 import prestashop.database.ProductSql;
+import prestashop.database.StockSql;
 import prestashop.interfaces.Record;
 import prestashop.interfaces.RecordHandler;
 import prestashop.utils.DATA_TYPE;
@@ -34,7 +35,8 @@ public class PricelistHandler implements RecordHandler {
 			String idProduct = ProductSql.getProductId(db, record.getName());
 			if (idProduct != "-1") {
 				System.out.println("Aktualizacja produktu: "+record);
-				ProductSql.update(db,idProduct, record.getPrice(), record.getQuantity());
+				ProductSql.update(db,idProduct, record.getPrice());
+				StockSql.addUpdate(db, idProduct, id_shop, record.getQuantity());
 			} else {
 				System.out.println("Produkt nie istnieje "+rc);
 			}

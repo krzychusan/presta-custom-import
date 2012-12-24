@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import prestashop.parser.ShieldRecordCreator;
 import prestashop.database.DbConnector;
+import prestashop.handler.DescriptionHandler;
 import prestashop.handler.PricelistHandler;
 import prestashop.handler.ProductHandler;
 import prestashop.interfaces.InputParser;
@@ -11,6 +12,7 @@ import prestashop.interfaces.Record;
 import prestashop.interfaces.RecordCreator;
 import prestashop.interfaces.RecordHandler;
 import prestashop.parser.BrakePadRecordCreator;
+import prestashop.parser.DescriptionRecordCreator;
 import prestashop.parser.ExcelParser;
 import prestashop.parser.PriceListRecordCreator;
 import prestashop.utils.DATA_TYPE;
@@ -43,12 +45,15 @@ public class Importer {
 	{
 		if (cliParser.getType() == DATA_TYPE.PRICELIST)
 			createPricelistObjects();
+		else if (cliParser.getType() == DATA_TYPE.DESCRIPTIONS)
+			createDescriptionObjects();
 		else
 			createProductObjects(cliParser.getType());
 	}
 	
 	public void parseArguments(String [] args)
 	{
+		cliParser.setImporterParams();
 		cliParser.parse(args);
 	}
 	
@@ -74,6 +79,12 @@ public class Importer {
 		}
 	}
 	
+	private void createDescriptionObjects()
+	{
+		input = new ExcelParser(new DescriptionRecordCreator());
+		handler = new DescriptionHandler();
+	}
+	
 	private void createPricelistObjects()
 	{
 		input = new ExcelParser(new PriceListRecordCreator());
@@ -91,5 +102,4 @@ public class Importer {
 		input = new ExcelParser(rc);
 		handler = new ProductHandler(type);
 	}
-	
 }

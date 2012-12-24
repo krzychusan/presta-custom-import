@@ -15,14 +15,23 @@ public class ProductSql extends BaseSql {
 	private final static String sqlInsertProductLang = createInsertProductLangSql();
 	private final static String sqlInsertProduct = createInsertProductSql();
 	
-	private final static String sqlUpdateProduct = "UPDATE ps_product SET price='"+TAG_PRICE+"', quantity='"+TAG_QUANTITY+"' WHERE id_product="+TAG_PRODUCT+";";
+	private final static String sqlUpdateProduct = "UPDATE ps_product SET price='"+TAG_PRICE+"' WHERE id_product="+TAG_PRODUCT+";";
 	private final static String sqlUpdateProductShop = "UPDATE ps_product_shop SET price='"+TAG_PRICE+"' WHERE id_product="+TAG_PRODUCT+";";
+	private final static String sqlUpdateDescription = "UPDATE ps_product_lang SET description='"+TAG_DESCRIPTION+"', description_short='"+TAG_SHORT_DESCRIPTION+"' WHERE id_product="+TAG_PRODUCT+";";
+	private final static String sqlUpdateProductParams = "UPDATE ps_product SET width="+TAG_WIDTH+", height="+TAG_HEIGHT+", depth="+TAG_DEPTH+", weight="+TAG_WEIGHT+" WHERE id_product="+TAG_PRODUCT+";";
 	
+	
+	public static void reset(DbConnector db)
+	{
+		db.execute("TRUNCATE TABLE ps_product;");
+		db.execute("TRUNCATE TABLE ps_product_lang;");
+		db.execute("TRUNCATE TABLE ps_product_shop;");
+	}
 
-	public static void update(DbConnector db, String idProduct, String price, String quantity)
+	public static void update(DbConnector db, String idProduct, String price)
 	{
 		int result = db.execute(
-				sqlUpdateProduct.replace(TAG_PRODUCT, idProduct).replace(TAG_PRICE, price).replace(TAG_QUANTITY, quantity)
+				sqlUpdateProduct.replace(TAG_PRODUCT, idProduct).replace(TAG_PRICE, price)
 				);
 		if (result != 1) {
 			System.out.println("Blad podczas aktualizacji tabeli produktow " + idProduct);
@@ -132,6 +141,31 @@ public class ProductSql extends BaseSql {
 			System.exit(1);
 		}
 		return Integer.toString(result);
+	}
+	
+	public static void updateDescription(DbConnector db, String id, String description, String shortDescription)
+	{
+		if (description == null)
+			description = "";
+		if (shortDescription == null)
+			shortDescription = "";
+		
+		int result = db.execute(
+				sqlUpdateDescription.replace(TAG_PRODUCT,id).replace(TAG_DESCRIPTION, description).replace(TAG_SHORT_DESCRIPTION, shortDescription)
+				);
+		if (result != 1) {
+			System.out.println("Blad podczas aktualizacji rekordu " + id + " opis \""+description+"\"");
+		}
+	}
+	
+	public static void updateProductParams(DbConnector db, String id, String width, String height, String depth, String weight)
+	{
+		int result = db.execute(
+				sqlUpdateProductParams.replace(TAG_PRODUCT,id).replace(TAG_WIDTH,width).replace(TAG_HEIGHT, height).replace(TAG_DEPTH, depth).replace(TAG_WEIGHT, weight)
+				);
+		if (result != 1) {
+			System.out.println("Blad podczas aktualizacji rekordu " + id);
+		}
 	}
 	
 	

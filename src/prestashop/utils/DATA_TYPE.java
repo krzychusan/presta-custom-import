@@ -1,13 +1,15 @@
 package prestashop.utils;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
 
 public enum DATA_TYPE {
 	BRAKEPADS_FRONT("klocki hamulcowe przednie", "BF"),
 	BRAKEPADS_BACK("klocki hamulcowe tylne", "BB"),
 	SHIELDS_FRONT("tarcze hamulcowe przednie", "SF"),
 	SHIELDS_BACK("tarcze hamulcowe tylne", "SB"),
-	PRICELIST("cennik", "C");
+	PRICELIST("cennik", "C"),
+	DESCRIPTIONS("opisy", "D"),
+	ROOT("Root", "ROOT"),
+	UNKNOWN("ZLY TYP", "!!!!!!!!!!");
 	
 	DATA_TYPE(String title, String id)
 	{
@@ -15,7 +17,7 @@ public enum DATA_TYPE {
 		this.id = id;
 	}
 	
-	public static DATA_TYPE GetValue(String value) throws ParseException
+	public static DATA_TYPE GetValue(String value)
 	{
 		for (DATA_TYPE type: DATA_TYPE.values()) {
 			if (type.id.equals(value)) {
@@ -28,8 +30,9 @@ public enum DATA_TYPE {
 			System.out.println("- "+type.id);
 		}
 			
-		throw new ParseException("Nieznany typ arkusza: "+value);
-		
+		System.out.println("Nieznany typ arkusza: "+value);
+		System.exit(1);
+		return DATA_TYPE.UNKNOWN;
 	}
 	
 	public String getDbName()

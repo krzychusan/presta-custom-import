@@ -1,2 +1,0 @@
-Main-Class: prestashop.img.ImgImporter
-Class-Path: mysql-connector-java-5.0.8-bin.jar

@@ -15,8 +15,8 @@ public class CategorySql extends BaseSql {
 	private final static String sqlInsertCategoryShop = "INSERT INTO ps_category_shop(id_category,id_shop)VALUES("+TAG_CATEGORY+","+TAG_SHOP+");";
 	
 	private final static String sqlInsertCategory = 
-			"INSERT INTO ps_category(id_parent,id_shop_default,level_depth,nleft,nright,active,date_add,date_upd)VALUES("+
-			TAG_PARENT+","+TAG_SHOP+","+TAG_DEPTH+","+TAG_LEFT+","+TAG_RIGHT+",1,NOW(),NOW());";
+			"INSERT INTO ps_category(id_parent,id_shop_default,level_depth,nleft,nright,active,date_add,date_upd,is_root_category)VALUES("+
+			TAG_PARENT+","+TAG_SHOP+","+TAG_DEPTH+","+TAG_LEFT+","+TAG_RIGHT+",1,NOW(),NOW(),"+TAG_ISROOT+");";
 
 	private final static String sqlGetCategory = 
 			"SELECT lang.id_category FROM ps_category cat "+
@@ -25,6 +25,15 @@ public class CategorySql extends BaseSql {
 			"WHERE cat.id_parent = "+TAG_PARENT+" AND lang.id_lang = "+TAG_LANG+" AND lang.name = '"+TAG_NAME+"';";
 	
 	
+	
+	public static void reset(DbConnector db)
+	{
+		db.execute("TRUNCATE TABLE ps_category;");
+		db.execute("TRUNCATE TABLE ps_category_group;");
+		db.execute("TRUNCATE TABLE ps_category_lang;");
+		db.execute("TRUNCATE TABLE ps_category_shop;");
+		db.execute("TRUNCATE TABLE ps_category_product;");
+	}
 	
 	public static String getCurrentCategory(DbConnector db, String parentId, String name, String lang)
 	{
@@ -42,6 +51,28 @@ public class CategorySql extends BaseSql {
 			System.exit(1);
 		}
 		return category;
+	}
+	
+	public static String getLastInsertedId(DbConnector db)
+	{
+		String id = "-1";
+		ResultSet rs = db.executeSelect(
+				sqlGetLastInsertedCategory
+				);
+
+		try {
+			if (rs.next()) {
+				id = Integer.toString(rs.getInt("id_category"));
+			} else {
+				System.out.println("Blad przy dodawaniu kategorii :/");
+				System.exit(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Blad sql" + e.getMessage());
+			System.exit(1);
+		}
+		return id;
 	}
 	
 	public static String addCategoryRecord(DbConnector db, String name, String parentId, String shop)
@@ -78,20 +109,13 @@ public class CategorySql extends BaseSql {
 								.replace(TAG_DEPTH, Integer.toString(parentDepth+1))
 								.replace(TAG_LEFT, Integer.toString(parentRight-1))
 								.replace(TAG_RIGHT, Integer.toString(parentRight))
+								.replace(TAG_ISROOT, "0")
 								);
 			if (result != 1) {
 				System.out.println("Blad podczas dodawania kategorii "+name);
 			}
 			
-			rs = db.executeSelect(
-					sqlGetLastInsertedCategory
-					);
-			if (rs.next()) {
-				newCategoryId = Integer.toString(rs.getInt("id_category"));
-			} else {
-				System.out.println("Blad przy dodawaniu kategorii :/");
-				System.exit(1);
-			}
+			newCategoryId = getLastInsertedId(db);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -133,6 +157,19 @@ public class CategorySql extends BaseSql {
 		if (result != 1) {
 			System.out.println("Blad podczas laczenia kategorii "+idCategory+" z nazwa "+name);
 		}
+	}
+
+	public static String addRootCategory(DbConnector db, String idShop, String idLang) 
+	{
+		db.execute(				
+				sqlInsertCategory.replace(TAG_PARENT, "0")
+				.replace(TAG_SHOP, idShop)
+				.replace(TAG_DEPTH, "0")
+				.replace(TAG_LEFT, "1")
+				.replace(TAG_RIGHT, "2")
+				.replace(TAG_ISROOT, "1")
+				);
+		return getLastInsertedId(db);
 	}
 
 }

@@ -17,6 +17,8 @@ class MissingArgument extends Exception {
 }
 
 public class CommandLineParser {
+	private Options options = new Options();
+
 	private final String[] argFile = {"f", "file", "Plik z danymi"};
 	private final String[] argType = {"t", "type", "Co zawiera plik z danymi"};
 	private final String[] argLogin = {"l", "login", "Login do bazy danych"};
@@ -54,20 +56,32 @@ public class CommandLineParser {
 		return type;
 	}
 	
-	public void parse(String [] args)
+	public void setImporterParams()
 	{
-		Options options = new Options();
 		AddOption(options, argFile);
 		AddOption(options, argType);
 		AddOption(options, argLogin);
 		AddOption(options, argPassword);
 		AddOption(options, argDb);
+	}
+	
+	public void setReseterParams()
+	{
+		AddOption(options, argLogin);
+		AddOption(options, argPassword);
+		AddOption(options, argDb);
+	}
+	
+	public void parse(String [] args)
+	{
 	
 		PosixParser cliParser = new PosixParser();
 		try {
 			CommandLine line = cliParser.parse(options, args);
-			filename = GetArgument(line, argFile);
-			type = DATA_TYPE.GetValue(GetArgument(line, argType));
+			if (options.hasOption(argFile[0]))
+				filename = GetArgument(line, argFile);
+			if (options.hasOption(argType[0]))
+				type = DATA_TYPE.GetValue(GetArgument(line, argType));
 			db = GetArgument(line, argDb);
 			login = GetArgument(line, argLogin);
 			password = line.getOptionValue(argPassword[0]);
