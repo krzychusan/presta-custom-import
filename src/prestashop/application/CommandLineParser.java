@@ -1,6 +1,7 @@
 package prestashop.application;
 
 import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.PosixParser;
 
@@ -88,6 +89,9 @@ public class CommandLineParser {
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e.getMessage());
+			System.out.println("--------------------");
+			HelpFormatter formatter = new HelpFormatter();
+			formatter.printHelp( "skladnia", options );
 			System.exit(1);
 		}
 	}
