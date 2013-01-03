@@ -1,0 +1,25 @@
+INSERT INTO ps_product(customizable,date_upd,available_date,id_supplier,weight,visibility,indexed,additional_shipping_cost,location,date_add,id_shop_default,ecotax,available_for_order,out_of_stock,height,quantity,id_manufacturer,show_price,minimal_quantity,`condition`,cache_default_attribute,cache_is_pack,width,advanced_stock_management,text_fields,on_sale,supplier_reference,upc,reference,depth,cache_has_attachments,quantity_discount,is_virtual,id_tax_rules_group,price,wholesale_price,unity,active,online_only,unit_price_ratio,uploadable_files,ean13,id_category_default) VALUES (0,NOW(),0000-00-00,0,0,'both',1,0,'',NOW(),1,,1,2,0,0,0,1,1,'new',0,0,0,0,0,0,'','','',0,0,0,0,1,0,0,'',1,0,0,0,'',61);
+
+SELECT * FROM ps_product_lang;
+
+DELETE FROM ps_product WHERE id_product > 0;
+DELETE FROM ps_product_lang WHERE id_product > 0;
+DELETE FROM ps_product_shop WHERE id_product > 0;
+
+DELETE FROM ps_image WHERE id_image > 1;
+DELETE FROM ps_image_shop WHERE id_image > 1;
+DELETE FROM ps_image_lang WHERE id_image > 1;
+
+
+
+DELETE FROM ps_category WHERE id_category < 999999;
+DELETE FROM ps_category_group WHERE id_category < 999999;
+DELETE FROM ps_category_lang WHERE id_category < 999999;
+DELETE FROM ps_category_shop WHERE id_category < 999999;
+
+INSERT INTO ps_category SELECT * FROM ps_category_dup;
+INSERT INTO ps_category_group SELECT * FROM ps_category_group_dup;
+INSERT INTO ps_category_lang SELECT * FROM ps_category_lang_dup;
+INSERT INTO ps_category_shop SELECT * FROM ps_category_shop_dup;
+
+
