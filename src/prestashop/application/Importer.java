@@ -4,9 +4,9 @@ import java.util.Iterator;
 
 import prestashop.parser.ShieldRecordCreator;
 import prestashop.database.DbConnector;
+import prestashop.handler.ProductHandler;
 import prestashop.handler.DescriptionHandler;
 import prestashop.handler.PricelistHandler;
-import prestashop.handler.ProductHandler;
 import prestashop.interfaces.InputParser;
 import prestashop.interfaces.Record;
 import prestashop.interfaces.RecordCreator;

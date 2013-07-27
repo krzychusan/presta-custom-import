@@ -35,10 +35,10 @@ public class Reseter {
 		
 		ProductHandler handler = new ProductHandler(DATA_TYPE.ROOT);
 		handler.open(connector);
-		String brakepads = handler.addCategory("klocki hamulcowe", idRoot);
+		String brakepads = handler.addCategory("Klocki hamulcowe", idRoot);
 		handler.addCategory(DATA_TYPE.BRAKEPADS_FRONT.getDbName(), brakepads);
 		handler.addCategory(DATA_TYPE.BRAKEPADS_BACK.getDbName(), brakepads);
-		String shields = handler.addCategory("tarcze hamulcowe", idRoot);
+		String shields = handler.addCategory("Tarcze hamulcowe", idRoot);
 		handler.addCategory(DATA_TYPE.SHIELDS_FRONT.getDbName(), shields);
 		handler.addCategory(DATA_TYPE.SHIELDS_BACK.getDbName(), shields);
 	}

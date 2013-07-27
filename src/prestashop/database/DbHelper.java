@@ -54,6 +54,7 @@ public class DbHelper {
 	public static String getRoot(DbConnector db, DATA_TYPE type)
 	{
 		int id_root = -1;
+		//fix here first find root category then to go specific Oś
 		try {
 			ResultSet rs = db.executeSelect(
 					sqlGetRootCategory.replace(TAG_NAME, type.getDbName())

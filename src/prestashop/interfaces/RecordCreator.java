@@ -13,7 +13,7 @@ public abstract class RecordCreator {
 		else if (cell.getCellType() == Cell.CELL_TYPE_STRING)
 			return cell.getRichStringCellValue().toString();
 		else if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC)
-			return Double.toString(cell.getNumericCellValue());
+			return String.format("%.1f", cell.getNumericCellValue());
 		return null;
-		}
+	}
 }

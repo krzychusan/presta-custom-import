@@ -52,11 +52,10 @@ public class ProductHandler implements RecordHandler {
 			if (record.getComment() != null) {
 				idCategory = addCategoryIfNew(record.getComment(), idCategory);
 			}
-			handleProducts(idCategory, record.getProducts());
+			handleProducts(idCategory, record, record.getProducts());
 		} else {
 			System.out.println("Bledny rekord"+rc);
 		}
-		
 	}
 	
 	public String addCategoryIfNew(String name, String parentId)
@@ -89,32 +88,37 @@ public class ProductHandler implements RecordHandler {
 		return idCategory;
 	}
 	
-	public void handleProducts(String idCategory, HashMap<String, String[]> products)
+	public void handleProducts(String idCategory, ProductRecord rc, HashMap<String, String[]> products)
 	{
 		for (Entry<String, String[]> product : products.entrySet())
 		{
 			String owner = product.getKey();
 			for (String title: product.getValue())
 			{
-				handleProduct(idCategory, owner, title);
+				handleProduct(idCategory, owner, title, rc);
 			}
 		}
 	}
 	
-	public void handleProduct(String idCategory, String owner, String name)
+	public void handleProduct(String idCategory, String owner, String name, ProductRecord rc)
 	{
-		String idProduct = addProductIfNew(name, idCategory);
+		String idProduct = addProductIfNew(name, owner, idCategory, rc);
 		if (!ProductSql.isProductInCategory(db, idProduct, idCategory))
 			ProductSql.addProductToCategory(db, idProduct, idCategory);
 	}
 	
-	public String addProductIfNew(String name, String idCategory)
+	public String addProductIfNew(String name, String owner, String idCategory, ProductRecord rc)
 	{
 		String idProduct = ProductSql.getProductId(db, name);
 		if (idProduct == "-1") {
 			idProduct = ProductSql.addProduct(db, idCategory, name, id_shop);
-			System.out.println("Dodano produkt "+name+" o ID "+idProduct);
-			ProductSql.addProductLang(db, idProduct, name, id_shop, id_lang);
+			System.out.println("Dodano produkt "+name+" o ID "+idProduct + " owner: " + owner);
+			if (rc.getWidth() != null && rc.getHeight() != null && rc.getWeight() != null && rc.getDepth() != null) {
+				System.out.println("Updating dimensions: " + rc.getHeight() + " " + rc.getWidth() + " " + rc.getDepth());
+				ProductSql.updateProductParams(db, idProduct, rc.getWidth(), rc.getHeight(), rc.getDepth(), rc.getWeight());
+			}
+			
+			ProductSql.addProductLang(db, idProduct, type.getCategory() + " " + owner.toUpperCase(), name, id_shop, id_lang);
 			ProductSql.addProductShop(db, idProduct, idCategory, id_shop);
 			//addProductSupplier();
 			//addProductTag();
