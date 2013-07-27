@@ -93,14 +93,14 @@ public class ProductSql extends BaseSql {
 		}
 	}
 	
-	public static void addProductLang(DbConnector db, String idProduct, String name, String shop, String lang)
+	public static void addProductLang(DbConnector db, String idProduct, String formatedName, String catalogNumber, String shop, String lang)
 	{
-		System.out.println("Adding product shop: "+idProduct + name );
+		System.out.println("Adding product lang: "+idProduct + catalogNumber );
 		int result = db.execute(
-				sqlInsertProductLang.replace(TAG_PRODUCT,idProduct).replace(TAG_SHOP,shop).replace(TAG_LANG, lang).replace(TAG_NAME, name).replace(TAG_REWRITE, prepareLink(name))
+				sqlInsertProductLang.replace(TAG_PRODUCT,idProduct).replace(TAG_SHOP,shop).replace(TAG_LANG, lang).replace(TAG_NAME, formatedName).replace(TAG_REWRITE, prepareLink(catalogNumber))
 				);
 		if (result != 1) {
-			System.out.println("Blad podczas ustawiania nazwy produktu " + idProduct + name);
+			System.out.println("Blad podczas ustawiania nazwy produktu " + idProduct + catalogNumber);
 		}
 	}
 	
@@ -119,7 +119,7 @@ public class ProductSql extends BaseSql {
 	{
 		System.out.println("Adding product: " + name + " to category "+idCategory);
 		int result = db.execute(
-				sqlInsertProduct.replace(TAG_CATEGORY,idCategory).replace(TAG_SHOP,shop)
+				sqlInsertProduct.replace(TAG_CATEGORY,idCategory).replace(TAG_SHOP,shop).replace(TAG_REFERENCE,name)
 				);
 		if (result != 1) {
 			System.out.println("Blad podczas ustawiania nazwy produktu " + name);
@@ -189,7 +189,7 @@ public class ProductSql extends BaseSql {
 		params.put("unity", "''");
 		params.put("unit_price_ratio", "0");
 		params.put("additional_shipping_cost", "0");
-		params.put("reference", "''");
+		params.put("reference", "'" + TAG_REFERENCE + "'");
 		params.put("supplier_reference", "''");
 		params.put("location", "''");
 		params.put("width", "0");

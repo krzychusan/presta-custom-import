@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 public class BaseSql {
 	protected final static String TAG_NAME = "<NAME>";
 	protected final static String TAG_CATEGORY = "<CATEGORY>";
+	protected final static String TAG_REFERENCE = "<REFERENCE>";
 	protected final static String TAG_GROUP = "<GROUP>";
 	protected final static String TAG_REWRITE = "<REWRITE>";
 	protected final static String TAG_SHOP = "<SHOP>";
