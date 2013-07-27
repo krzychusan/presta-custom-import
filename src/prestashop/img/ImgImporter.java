@@ -22,7 +22,7 @@ public class ImgImporter  {
 	}
 	
 	private boolean validateDestDir(File destDir) {
-		return (destDir.isDirectory() && destDir.listFiles().length == 0);
+		return (destDir.isDirectory());
 	}
 	
 	private boolean validateSrcDir(File srcDir) {
@@ -94,11 +94,11 @@ public class ImgImporter  {
 				System.out.println("Inserting the picture to database: " + img);
 				existingImageId = dbHelp.insertPicture(productId, productName);	
 			}
-			// prepare the direcotry for the image
+			// prepare the directory for the image
 			prepareDirectory(existingImageId);
 			try {
 				// copy and rename the image
-				Files.copy(Paths.get(img.getPath()), Paths.get(getPath(existingImageId) + "\\" + existingImageId + ".jpg"), StandardCopyOption.valueOf("REPLACE_EXISTING"));
+				Files.copy(Paths.get(img.getPath()), Paths.get(getPath(existingImageId) + "/" + existingImageId + ".jpg"), StandardCopyOption.valueOf("REPLACE_EXISTING"));
 			} catch (IOException e) {
 				System.out.println("Failure copying file");
 				e.printStackTrace();
@@ -109,8 +109,12 @@ public class ImgImporter  {
 	
 	public void processFiles(File dir){
 		File[] files = dir.listFiles();
-		for (File f : files)
-			processFile(f);
+		for (File f : files) {
+			if (f.isDirectory())
+				processFiles(f);
+			else
+				processFile(f);
+		}
 	}
 	
 	public static void main(String args[]) {

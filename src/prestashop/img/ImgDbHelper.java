@@ -29,9 +29,9 @@ public class ImgDbHelper {
 		dbConnector.close();
 	}
 	 
-	public String getDbProductId(String name) {
+	public String getDbProductId(String reference) {
 			ResultSet result = dbConnector.executeSelect("select id_product from ps_product_lang" +
-					                  " where name = \"" + name + "\" and " +
+					                  " where reference = \"" + reference + "\" and " +
 					                  "id_shop = " + shopId + " and  id_lang = " + languageId + ";");
 			try {
 				if (result.next()) {
