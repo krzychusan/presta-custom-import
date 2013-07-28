@@ -117,7 +117,7 @@ public class ProductHandler implements RecordHandler {
 				System.out.println("Updating dimensions: " + rc.getHeight() + " " + rc.getWidth() + " " + rc.getDepth());
 				ProductSql.updateProductParams(db, idProduct, rc.getWidth(), rc.getHeight(), rc.getDepth(), rc.getWeight());
 			}
-			
+					
 			ProductSql.addProductLang(db, idProduct, type.getCategory() + " " + owner.toUpperCase(), name, id_shop, id_lang);
 			ProductSql.addProductShop(db, idProduct, idCategory, id_shop);
 			//addProductSupplier();
