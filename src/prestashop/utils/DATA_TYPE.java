@@ -2,15 +2,18 @@ package prestashop.utils;
 
 
 public enum DATA_TYPE {
-	BRAKEPADS_FRONT("Klocki hamulcowe", "Oś przednia", "BF"),
-	BRAKEPADS_BACK("Klocki hamulcowe", "Oś tylna", "BB"),
-	SHIELDS_FRONT("Tarcze hamulcowe", "Oś przednia", "SF"),
-	SHIELDS_BACK("Tarcze hamulcowe", "Oś tylna", "SB"),
+	BRAKEPADS_FRONT(DATA_TYPE.KLOCKI_HAMULCOWE, "Oś przednia", "BF"),
+	BRAKEPADS_BACK(DATA_TYPE.KLOCKI_HAMULCOWE, "Oś tylna", "BB"),
+	SHIELDS_FRONT(DATA_TYPE.TARCZE_HAMULCOWE, "Oś przednia", "SF"),
+	SHIELDS_BACK(DATA_TYPE.TARCZE_HAMULCOWE, "Oś tylna", "SB"),
 	PRICELIST("?", "cennik", "C"),
 	DESCRIPTIONS("?", "opisy", "D"),
-	ROOT("0", "Root", "ROOT"),
-	UNKNOWN("ERROR", "ZLY TYP", "!!!!!!!!!!");
+	ROOT("Root", "NONE", "ROOT"),
+	UNKNOWN("NONE", "ZLY TYP", "!!!!!!!!!!");
 	
+	public static final String TARCZE_HAMULCOWE = "Tarcze hamulcowe";
+	public static final String KLOCKI_HAMULCOWE = "Klocki hamulcowe";
+	public static final String SHOP = "BrakeParts";
 	DATA_TYPE(String category, String title, String id)
 	{
 		this.category = category;
@@ -37,7 +40,7 @@ public enum DATA_TYPE {
 	}
 	
 	public String getCategory() {
-		return category.toUpperCase();
+		return category;
 	}
 	
 	public String getDbName()

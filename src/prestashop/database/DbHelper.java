@@ -51,18 +51,25 @@ public class DbHelper {
 		return Integer.toString(id_shop);
 	}
 	
-	public static String getRoot(DbConnector db, DATA_TYPE type)
+	public static String getRoot(DbConnector db, DATA_TYPE type, String id_lang)
 	{
 		int id_root = -1;
-		//fix here first find root category then to go specific Oś
 		try {
 			ResultSet rs = db.executeSelect(
-					sqlGetRootCategory.replace(TAG_NAME, type.getDbName())
+					sqlGetRootCategory.replace(TAG_NAME,  type.getCategory())
 					);
 			if (rs.next()) {
 				id_root = rs.getInt("id_category");
+				if (!type.getDbName().equals("NONE")) {
+					String category = CategorySql.getCurrentCategory(db, Integer.toString(id_root), type.getDbName(), id_lang);
+					if (category.equals("-1")) {
+						System.out.println("Nie ma takiej kategorii: "+type.getDbName());
+						System.exit(1);
+					}
+					return category;
+				}
 			} else {
-				System.out.println("Nie ma takiej kategorii!: "+type.getDbName());
+				System.out.println("Nie ma takiej kategorii: "+type.getCategory());
 				System.exit(1);
 			}
 		} catch (SQLException e) {
