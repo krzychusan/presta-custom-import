@@ -34,7 +34,7 @@ public class ProductHandler implements RecordHandler {
 		db = database;
 		id_shop = DbHelper.getShop(db);
 		id_lang = DbHelper.getLanguage(db);
-		id_root = DbHelper.getRoot(db, type);
+		id_root = DbHelper.getRoot(db, type, id_lang);
 	}
 
 	@Override
@@ -118,7 +118,7 @@ public class ProductHandler implements RecordHandler {
 				ProductSql.updateProductParams(db, idProduct, rc.getWidth(), rc.getHeight(), rc.getDepth(), rc.getWeight());
 			}
 			
-			ProductSql.addProductLang(db, idProduct, type.getCategory() + " " + owner.toUpperCase(), name, id_shop, id_lang);
+			ProductSql.addProductLang(db, idProduct, type.getCategory().toUpperCase() + " " + owner.toUpperCase(), name, id_shop, id_lang);
 			ProductSql.addProductShop(db, idProduct, idCategory, id_shop);
 			//addProductSupplier();
 			//addProductTag();

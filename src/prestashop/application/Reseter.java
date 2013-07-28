@@ -31,16 +31,18 @@ public class Reseter {
 		ImageSql.reset(connector);
 		StockSql.reset(connector);
 		
-		String idRoot = addRoot();
+		String idPrestaRoot = addRoot();
 		
 		ProductHandler handler = new ProductHandler(DATA_TYPE.ROOT);
 		handler.open(connector);
-		String brakepads = handler.addCategory("Klocki hamulcowe", idRoot);
-		handler.addCategory(DATA_TYPE.BRAKEPADS_FRONT.getDbName(), brakepads);
-		handler.addCategory(DATA_TYPE.BRAKEPADS_BACK.getDbName(), brakepads);
-		String shields = handler.addCategory("Tarcze hamulcowe", idRoot);
+		String idShopRoot = handler.addCategory(DATA_TYPE.SHOP, idPrestaRoot);
+
+		String shields = handler.addCategory(DATA_TYPE.TARCZE_HAMULCOWE, idShopRoot);
 		handler.addCategory(DATA_TYPE.SHIELDS_FRONT.getDbName(), shields);
 		handler.addCategory(DATA_TYPE.SHIELDS_BACK.getDbName(), shields);
+		String brakepads = handler.addCategory(DATA_TYPE.KLOCKI_HAMULCOWE, idShopRoot);
+		handler.addCategory(DATA_TYPE.BRAKEPADS_FRONT.getDbName(), brakepads);
+		handler.addCategory(DATA_TYPE.BRAKEPADS_BACK.getDbName(), brakepads);
 	}
 	
 	public String addRoot()

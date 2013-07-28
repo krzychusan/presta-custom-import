@@ -169,6 +169,7 @@ public class CategorySql extends BaseSql {
 				.replace(TAG_RIGHT, "2")
 				.replace(TAG_ISROOT, "1")
 				);
+		
 		return getLastInsertedId(db);
 	}
 

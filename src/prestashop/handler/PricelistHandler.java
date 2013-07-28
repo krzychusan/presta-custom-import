@@ -15,13 +15,11 @@ public class PricelistHandler implements RecordHandler {
 	private DATA_TYPE type = null;
 	
 	private String id_shop = "0";
-	private String id_lang = "0";
 
 	@Override
 	public void open(DbConnector database) {
 		db = database;
 		id_shop = DbHelper.getShop(db);
-		id_lang = DbHelper.getLanguage(db);
 	}
 
 	@Override
