@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import prestashop.database.CategorySql;
 import prestashop.database.DbConnector;
 import prestashop.database.DbHelper;
@@ -40,7 +42,7 @@ public class ProductHandler implements RecordHandler {
 		id_lang = DbHelper.getLanguage(db);
 		id_root = DbHelper.getRoot(db, type, id_lang);
 		
-		descriptionProvider = new PatternFileMapCreator(new File("pads_desc"), new File("shields_desc"));
+		descriptionProvider = new PatternFileMapCreator(new File("data/klocki_opisy"), new File("data/tarcze_opisy"));
 	}
 
 	@Override
@@ -118,23 +120,32 @@ public class ProductHandler implements RecordHandler {
 		String idProduct = ProductSql.getProductId(db, name);
 		if (idProduct == "-1") {
 			idProduct = ProductSql.addProduct(db, idCategory, name, id_shop);
+			ProductSql.addProductLang(db, idProduct, type.getCategory().toUpperCase() + " " + owner.toUpperCase(), name, id_shop, id_lang);
+			ProductSql.addProductShop(db, idProduct, idCategory, id_shop);
+			
 			System.out.println("Dodano produkt "+name+" o ID "+idProduct + " owner: " + owner);
+			
 			if (rc.getWidth() != null && rc.getHeight() != null && rc.getWeight() != null && rc.getDepth() != null) {
 				System.out.println("Updating dimensions: " + rc.getHeight() + " " + rc.getWidth() + " " + rc.getDepth());
 				ProductSql.updateProductParams(db, idProduct, rc.getWidth(), rc.getHeight(), rc.getDepth(), rc.getWeight());
 			}
 			
-			String description = descriptionProvider.getMatchingDescription(type, name);
+			String description = escapeSql(descriptionProvider.getMatchingDescription(type, name));
 			if (description != null) {
-				ProductSql.updateDescription(db, idProduct, description, description);
+				ProductSql.updateDescription(db, idProduct, description, null);
 			}
 
-			ProductSql.addProductLang(db, idProduct, type.getCategory().toUpperCase() + " " + owner.toUpperCase(), name, id_shop, id_lang);
-			ProductSql.addProductShop(db, idProduct, idCategory, id_shop);
 			//addProductSupplier();
 			//addProductTag();
 		}
 		return idProduct;
+	}
+	
+	public String escapeSql(String sql)
+	{
+		if (sql != null)
+			return sql.replace("\"", "\\\"");
+		return null;
 	}
 	
 	private String generateKey(String name, String parentName)

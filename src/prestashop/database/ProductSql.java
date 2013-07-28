@@ -17,7 +17,7 @@ public class ProductSql extends BaseSql {
 	
 	private final static String sqlUpdateProduct = "UPDATE ps_product SET price='"+TAG_PRICE+"' WHERE id_product="+TAG_PRODUCT+";";
 	private final static String sqlUpdateProductShop = "UPDATE ps_product_shop SET price='"+TAG_PRICE+"' WHERE id_product="+TAG_PRODUCT+";";
-	private final static String sqlUpdateDescription = "UPDATE ps_product_lang SET description='"+TAG_DESCRIPTION+"', description_short='"+TAG_SHORT_DESCRIPTION+"' WHERE id_product="+TAG_PRODUCT+";";
+	private final static String sqlUpdateDescription = "UPDATE ps_product_lang SET description=\""+TAG_DESCRIPTION+"\", description_short=\""+TAG_SHORT_DESCRIPTION+"\" WHERE id_product="+TAG_PRODUCT+";";
 	private final static String sqlUpdateProductParams = "UPDATE ps_product SET width="+TAG_WIDTH+", height="+TAG_HEIGHT+", depth="+TAG_DEPTH+", weight="+TAG_WEIGHT+" WHERE id_product="+TAG_PRODUCT+";";
 	
 	
@@ -154,7 +154,7 @@ public class ProductSql extends BaseSql {
 				sqlUpdateDescription.replace(TAG_PRODUCT,id).replace(TAG_DESCRIPTION, description).replace(TAG_SHORT_DESCRIPTION, shortDescription)
 				);
 		if (result != 1) {
-			System.out.println("Blad podczas aktualizacji rekordu " + id + " opis \""+description+"\"");
+			System.out.println("Blad podczas aktualizacji rekordu(result= " + result + " ID: " + id + " opis "+description);
 		}
 	}
 	
