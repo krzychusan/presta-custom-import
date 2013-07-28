@@ -128,7 +128,7 @@ public class ProductHandler implements RecordHandler {
 			if (description != null) {
 				ProductSql.updateDescription(db, idProduct, description, description);
 			}
-			
+
 			ProductSql.addProductLang(db, idProduct, type.getCategory().toUpperCase() + " " + owner.toUpperCase(), name, id_shop, id_lang);
 			ProductSql.addProductShop(db, idProduct, idCategory, id_shop);
 			//addProductSupplier();
