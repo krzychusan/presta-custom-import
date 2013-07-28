@@ -1,5 +1,6 @@
 package prestashop.handler;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -10,6 +11,7 @@ import prestashop.database.GROUPS;
 import prestashop.database.ProductSql;
 import prestashop.interfaces.Record;
 import prestashop.interfaces.RecordHandler;
+import prestashop.parser.PatternFileMapCreator;
 import prestashop.utils.DATA_TYPE;
 import prestashop.utils.ProductRecord;
 
@@ -17,6 +19,8 @@ public class ProductHandler implements RecordHandler {
 
 	private DbConnector db = null;
 	private DATA_TYPE type = null;
+	
+	private PatternFileMapCreator descriptionProvider = null; 
 	
 	private String id_shop = "0";
 	private String id_lang = "0";
@@ -35,6 +39,8 @@ public class ProductHandler implements RecordHandler {
 		id_shop = DbHelper.getShop(db);
 		id_lang = DbHelper.getLanguage(db);
 		id_root = DbHelper.getRoot(db, type, id_lang);
+		
+		descriptionProvider = new PatternFileMapCreator(new File("pads_desc"), new File("shields_desc"));
 	}
 
 	@Override
@@ -116,6 +122,11 @@ public class ProductHandler implements RecordHandler {
 			if (rc.getWidth() != null && rc.getHeight() != null && rc.getWeight() != null && rc.getDepth() != null) {
 				System.out.println("Updating dimensions: " + rc.getHeight() + " " + rc.getWidth() + " " + rc.getDepth());
 				ProductSql.updateProductParams(db, idProduct, rc.getWidth(), rc.getHeight(), rc.getDepth(), rc.getWeight());
+			}
+			
+			String description = descriptionProvider.getMatchingDescription(type, name);
+			if (description != null) {
+				ProductSql.updateDescription(db, idProduct, description, description);
 			}
 			
 			ProductSql.addProductLang(db, idProduct, type.getCategory().toUpperCase() + " " + owner.toUpperCase(), name, id_shop, id_lang);
